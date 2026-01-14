@@ -1,0 +1,43 @@
+name: Build and Deploy React Native App
+
+on:
+  push:
+    branches:
+      - main  # Si attiva ogni volta che viene fatto un push nel branch principale
+  pull_request:
+    branches:
+      - main  # Si attiva quando viene creato un pull request verso il branch principale
+  workflow_dispatch:  # Permette di triggerare manualmente il workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Usa l'ultima versione di Ubuntu
+
+    steps:
+      # 1. Checkout del codice
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup di Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # Usa la versione di Node.js 18 (compatibile con RN)
+          cache: 'npm'  # Abilita la cache per migliorare le performance
+
+      # 3. Installa le dipendenze
+      - name: Install dependencies
+        run: npm install  # Se usi yarn, sostituisci con 'yarn install'
+
+      # 4. Esegui la build dell'app
+      - name: Build app for Android
+        run: |
+          cd android
+          ./gradlew assembleDebug  # Costruisci l'APK in modalità debug
+
+      # 5. Carica il file APK come artefatto
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: unionhub-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
