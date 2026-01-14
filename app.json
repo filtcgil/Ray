@@ -1,0 +1,10 @@
+{
+  "name": "Ray",
+  "displayName": "Ray",
+  "expo": {
+    "name": "Ray",
+    "slug": "Ray",
+    "platforms": ["android", "ios"],
+    "version": "1.0.0"
+  }
+}
