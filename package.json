@@ -16,7 +16,7 @@
     "react-native-gesture-handler": "^2.16.2",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-screens": "^3.30.0",
-    "axios": "^0.27.2"  // Per le chiamate API
+    "axios": "^0.27.2"
   },
   "devDependencies": {
     "@react-native-community/cli": "^15.0.0",
