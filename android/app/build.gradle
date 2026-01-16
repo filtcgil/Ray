@@ -1,42 +1,27 @@
 apply plugin: "com.android.application"
-apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
 android {
-    namespace "com.ray.app"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.ray"
+    compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.ray.app"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        applicationId "com.ray"
+        minSdkVersion 24
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
 
     buildTypes {
-        debug {
-            debuggable true
-        }
         release {
             minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile(
-                "proguard-android-optimize.txt"
-            ), "proguard-rules.pro"
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = "11"
     }
 }
 
 dependencies {
-    implementation("com.google.android.material:material:1.11.0")
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"
 }
