@@ -1,5 +1,3 @@
-rootProject.name = "Ray"
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -17,5 +15,7 @@ dependencyResolutionManagement {
         maven { url("https://www.jitpack.io") }
     }
 }
+
+rootProject.name = "Ray"
 
 include(":app")
