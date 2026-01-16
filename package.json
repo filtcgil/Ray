@@ -21,6 +21,7 @@
   "devDependencies": {
     "@react-native-community/cli": "^15.0.0",
     "@react-native-community/cli-platform-android": "^11.3.7",
+    "@react-native/gradle-plugin": "^0.71.11",
     "typescript": "5.0.4"
   },
   "engines": {
