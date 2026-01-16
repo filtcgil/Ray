@@ -24,41 +24,20 @@ export default function AppNavigator() {
           tabBarInactiveTintColor: COLORS.gray,
           tabBarIcon: ({ color, size }) => {
             let iconName = 'home';
-
             switch (route.name) {
-              case 'Archivio':
-                iconName = 'folder';
-                break;
-              case 'News':
-                iconName = 'newspaper';
-                break;
-              case 'Scioperi':
-                iconName = 'megaphone';
-                break;
-              case 'Annunci':
-                iconName = 'notifications';
-                break;
-              case 'Tempo libero':
-                iconName = 'sunny';
-                break;
-              case 'Benefits':
-                iconName = 'gift';
-                break;
-              case 'Chat':
-                iconName = 'chatbubbles';
-                break;
+              case 'Archivio': iconName = 'folder'; break;
+              case 'News': iconName = 'newspaper'; break;
+              case 'Scioperi': iconName = 'megaphone'; break;
+              case 'Annunci': iconName = 'notifications'; break;
+              case 'Tempo libero': iconName = 'sunny'; break;
+              case 'Benefits': iconName = 'gift'; break;
+              case 'Chat': iconName = 'chatbubbles'; break;
             }
-
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
       >
-        <Tab.Screen
-  name="Archivio"
-  component={HomeDriveScreen}
-  options={{ headerTitle: 'Archivio Documenti' }}
-/>
-
+        <Tab.Screen name="Archivio" component={HomeDriveScreen} />
         <Tab.Screen name="News" component={NewsScreen} />
         <Tab.Screen name="Scioperi" component={ScioperiScreen} />
         <Tab.Screen name="Annunci" component={AnnunciScreen} />
