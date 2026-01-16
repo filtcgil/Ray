@@ -2,8 +2,10 @@
   "name": "ray-backend",
   "version": "0.1.0",
   "main": "index.js",
+  "private": true,
   "dependencies": {
     "express": "^4.18.2",
-    "googleapis": "^121.0.0"
+    "googleapis": "^121.0.0",
+    "cors": "^2.8.5"
   }
 }
