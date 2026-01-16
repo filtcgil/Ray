@@ -53,7 +53,12 @@ export default function AppNavigator() {
           },
         })}
       >
-        <Tab.Screen name="Archivio" component={HomeDriveScreen} />
+        <Tab.Screen
+  name="Archivio"
+  component={HomeDriveScreen}
+  options={{ headerTitle: 'Archivio Documenti' }}
+/>
+
         <Tab.Screen name="News" component={NewsScreen} />
         <Tab.Screen name="Scioperi" component={ScioperiScreen} />
         <Tab.Screen name="Annunci" component={AnnunciScreen} />
