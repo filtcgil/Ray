@@ -1,31 +1,66 @@
 import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import HomeDriveScreen from '../screens/HomeDriveScreen';
 import NewsScreen from '../screens/NewsScreen';
-import StrikesScreen from '../screens/StrikesScreen';
-import AnnouncementsScreen from '../screens/AnnouncementsScreen';
-import FreeTimeScreen from '../screens/FreeTimeScreen';
+import ScioperiScreen from '../screens/ScioperiScreen';
+import AnnunciScreen from '../screens/AnnunciScreen';
+import TempoLiberoScreen from '../screens/TempoLiberoScreen';
 import BenefitsScreen from '../screens/BenefitsScreen';
 import ChatScreen from '../screens/ChatScreen';
+import { COLORS } from '../theme/colors';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="News" component={NewsScreen} />
-        <Stack.Screen name="Strikes" component={StrikesScreen} />
-        <Stack.Screen name="Announcements" component={AnnouncementsScreen} />
-        <Stack.Screen name="FreeTime" component={FreeTimeScreen} />
-        <Stack.Screen name="Benefits" component={BenefitsScreen} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          headerShown: true,
+          tabBarActiveTintColor: COLORS.primary,
+          tabBarInactiveTintColor: COLORS.gray,
+          tabBarIcon: ({ color, size }) => {
+            let iconName = 'home';
+
+            switch (route.name) {
+              case 'Archivio':
+                iconName = 'folder';
+                break;
+              case 'News':
+                iconName = 'newspaper';
+                break;
+              case 'Scioperi':
+                iconName = 'megaphone';
+                break;
+              case 'Annunci':
+                iconName = 'notifications';
+                break;
+              case 'Tempo libero':
+                iconName = 'sunny';
+                break;
+              case 'Benefits':
+                iconName = 'gift';
+                break;
+              case 'Chat':
+                iconName = 'chatbubbles';
+                break;
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
+        <Tab.Screen name="Archivio" component={HomeDriveScreen} />
+        <Tab.Screen name="News" component={NewsScreen} />
+        <Tab.Screen name="Scioperi" component={ScioperiScreen} />
+        <Tab.Screen name="Annunci" component={AnnunciScreen} />
+        <Tab.Screen name="Tempo libero" component={TempoLiberoScreen} />
+        <Tab.Screen name="Benefits" component={BenefitsScreen} />
+        <Tab.Screen name="Chat" component={ChatScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
-    }
+}
