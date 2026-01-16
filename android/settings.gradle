@@ -1,14 +1,13 @@
+rootProject.name = "Ray"
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
     }
+    includeBuild("../node_modules/@react-native/gradle-plugin")
 }
-
-includeBuild("../node_modules/@react-native/gradle-plugin")
-
-rootProject.name = "Ray"
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
