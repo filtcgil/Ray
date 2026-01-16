@@ -1,43 +1,60 @@
-name: Build and Deploy React Native App
+name: Build Android APK
 
 on:
   push:
     branches:
-      - main  # Si attiva ogni volta che viene fatto un push nel branch principale
-  pull_request:
-    branches:
-      - main  # Si attiva quando viene creato un pull request verso il branch principale
-  workflow_dispatch:  # Permette di triggerare manualmente il workflow
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usa l'ultima versione di Ubuntu
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_VERSION: 18
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
 
     steps:
-      # 1. Checkout del codice
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # 2. Setup di Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Usa la versione di Node.js 18 (compatibile con RN)
-          cache: 'npm'  # Abilita la cache per migliorare le performance
+          node-version: ${{ env.NODE_VERSION }}
 
-      # 3. Installa le dipendenze
-      - name: Install dependencies
-        run: npm install  # Se usi yarn, sostituisci con 'yarn install'
-
-      # 4. Esegui la build dell'app
-      - name: Build app for Android
-        run: |
-          cd android
-          ./gradlew assembleDebug  # Costruisci l'APK in modalità debug
-
-      # 5. Carica il file APK come artefatto
-      - name: Upload APK as artifact
-        uses: actions/upload-artifact@v4
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          name: unionhub-debug-apk
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33
+          build-tools: 33.0.2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x android/gradlew
+
+      - name: Build Debug APK
+        run: ./android/gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
