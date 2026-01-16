@@ -1,41 +1,51 @@
 import React, { useState } from 'react';
-import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, TextInput } from 'react-native';
 import DriveItem from '../components/DriveItem';
+import DriveBreadcrumb from '../components/DriveBreadcrumb';
 import { mockDrive } from '../data/mockDrive';
 import { COLORS } from '../theme/colors';
 
 export default function HomeDriveScreen() {
   const [currentFolder, setCurrentFolder] = useState('root');
-  const [history, setHistory] = useState([]);
+  const [path, setPath] = useState([{ id: 'root', name: 'Archivio' }]);
+  const [search, setSearch] = useState('');
 
   const data = mockDrive[currentFolder] || [];
 
+  const filteredData = data.filter(item =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   const openItem = (item) => {
     if (item.type === 'folder') {
-      setHistory([...history, currentFolder]);
       setCurrentFolder(item.id);
+      setPath([...path, { id: item.id, name: item.name }]);
+      setSearch('');
     } else {
-      // in futuro: download / preview
       alert(`Apri file: ${item.name}`);
     }
   };
 
-  const goBack = () => {
-    const prev = history[history.length - 1];
-    setHistory(history.slice(0, -1));
-    setCurrentFolder(prev || 'root');
+  const navigateBreadcrumb = (index) => {
+    const newPath = path.slice(0, index + 1);
+    setPath(newPath);
+    setCurrentFolder(newPath[newPath.length - 1].id);
+    setSearch('');
   };
 
   return (
     <View style={styles.container}>
-      {history.length > 0 && (
-        <Text style={styles.back} onPress={goBack}>
-          ← Torna indietro
-        </Text>
-      )}
+      <DriveBreadcrumb path={path} onNavigate={navigateBreadcrumb} />
+
+      <TextInput
+        placeholder="Cerca file o cartelle"
+        value={search}
+        onChangeText={setSearch}
+        style={styles.search}
+      />
 
       <FlatList
-        data={data}
+        data={filteredData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <DriveItem item={item} onPress={() => openItem(item)} />
@@ -51,9 +61,11 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: COLORS.background,
   },
-  back: {
-    marginBottom: 10,
-    color: COLORS.primary,
-    fontSize: 16,
+  search: {
+    borderWidth: 1,
+    borderColor: COLORS.lightGray,
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 12,
   },
 });
