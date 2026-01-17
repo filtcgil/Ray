@@ -1,25 +1,25 @@
-name: Android Debug Build
+name: Android Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: npm
 
-      - name: Install dependencies
+      - name: Install JS dependencies
         run: npm install
 
       - name: Setup Java
@@ -28,7 +28,7 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Build Android
+      - name: Build Android APK
         run: |
           cd android
           chmod +x gradlew
